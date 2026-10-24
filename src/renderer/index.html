@@ -1,0 +1,203 @@
+<!doctype html>
+<html lang="zh-CN" data-theme="light" data-theme-mode="auto">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: file: https: http:; font-src 'self' data:; connect-src 'none'; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none';">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>MD Viewer</title>
+  <script src="theme-init.js"></script>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <svg class="svg-sprite" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <symbol id="i-folder" viewBox="0 0 24 24">
+      <path d="M3.5 7.5a2 2 0 0 1 2-2h4l2 2h7a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V7.5Z" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-refresh" viewBox="0 0 24 24">
+      <path d="M19.2 9.2A7.7 7.7 0 1 0 19 15" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linecap="round"/>
+      <path d="M19.5 4.8v4.7h-4.7" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="3.6" stroke="currentColor" fill="none" stroke-width="1.7"/>
+      <path d="M12 2.8v2M12 19.2v2M2.8 12h2M19.2 12h2M5.5 5.5l1.4 1.4M17.1 17.1l1.4 1.4M18.5 5.5l-1.4 1.4M6.9 17.1l-1.4 1.4" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24">
+      <path d="M20.2 14.4A8.4 8.4 0 0 1 9.6 3.8a8.5 8.5 0 1 0 10.6 10.6Z" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-auto" viewBox="0 0 24 24">
+      <circle cx="12" cy="12" r="8.3" stroke="currentColor" fill="none" stroke-width="1.7"/>
+      <path d="M12 3.7a8.3 8.3 0 0 1 0 16.6Z" fill="currentColor" opacity=".9"/>
+    </symbol>
+    <symbol id="i-search" viewBox="0 0 24 24">
+      <circle cx="10.8" cy="10.8" r="6.3" stroke="currentColor" fill="none" stroke-width="1.7"/>
+      <path d="m15.6 15.6 4.2 4.2" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-outline" viewBox="0 0 24 24">
+      <path d="M9 6.5h11M9 12h11M9 17.5h7" stroke="currentColor" fill="none" stroke-width="1.7" stroke-linecap="round"/>
+      <circle cx="4.6" cy="6.5" r="1.1" fill="currentColor"/>
+      <circle cx="4.6" cy="12" r="1.1" fill="currentColor"/>
+      <circle cx="4.6" cy="17.5" r="1.1" fill="currentColor"/>
+    </symbol>
+    <symbol id="i-reveal" viewBox="0 0 24 24">
+      <path d="M3.5 8a2 2 0 0 1 2-2h3.8l1.8 2h7.4a2 2 0 0 1 2 2v7.5a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2V8Z" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="m9.6 13 1.8 1.8 3.2-3.2" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-up" viewBox="0 0 24 24">
+      <path d="m7 14 5-5 5 5" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-down" viewBox="0 0 24 24">
+      <path d="m7 10 5 5 5-5" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+    <symbol id="i-x" viewBox="0 0 24 24">
+      <path d="m7 7 10 10M17 7 7 17" stroke="currentColor" fill="none" stroke-width="1.8" stroke-linecap="round"/>
+    </symbol>
+    <symbol id="i-file" viewBox="0 0 24 24">
+      <path d="M6.2 3.5h7.4l4.2 4.2v12.8H6.2V3.5Z" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linejoin="round"/>
+      <path d="M13.4 3.8v4.2h4.2M9 12h6M9 15h6M9 18h3.6" stroke="currentColor" fill="none" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+    </symbol>
+  </svg>
+
+  <div class="app" id="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 32 32">
+            <path d="M8 5.5h11l5 5v16H8v-21Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M18.7 5.8v5h5M12 15h8M12 19h8M12 23h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/>
+          </svg>
+        </div>
+        <div class="doc-meta">
+          <div class="doc-name" id="docName">MD Viewer</div>
+          <div class="doc-path" id="docPath"></div>
+        </div>
+      </div>
+
+      <div class="toolbar" role="toolbar" aria-label="工具栏">
+        <div class="mode-switch doc-only" id="modeSwitch" role="group" aria-label="查看模式" hidden>
+          <button type="button" data-mode="read" class="active">阅读</button>
+          <button type="button" data-mode="edit">编辑</button>
+        </div>
+        <span class="toolbar-sep doc-only" aria-hidden="true"></span>
+        <button type="button" class="icon-btn doc-only" id="btnOutline" title="目录" aria-label="显示或隐藏目录" aria-pressed="false">
+          <svg class="icon"><use href="#i-outline"/></svg>
+        </button>
+        <button type="button" class="icon-btn doc-only" id="btnReload" title="重新加载" aria-label="重新加载">
+          <svg class="icon"><use href="#i-refresh"/></svg>
+        </button>
+        <div class="font-control doc-only" aria-label="正文字号">
+          <button type="button" id="btnFontDown" title="缩小字号" aria-label="缩小字号">A−</button>
+          <span class="font-label" id="fontLabel">16</span>
+          <button type="button" id="btnFontUp" title="放大字号" aria-label="放大字号">A+</button>
+        </div>
+        <button type="button" class="icon-btn doc-only" id="btnFind" title="查找" aria-label="查找">
+          <svg class="icon"><use href="#i-search"/></svg>
+        </button>
+        <button type="button" class="theme-btn icon-btn" id="btnTheme" title="外观" aria-label="切换外观">
+          <svg class="icon theme-icon theme-icon-auto"><use href="#i-auto"/></svg>
+          <svg class="icon theme-icon theme-icon-light"><use href="#i-sun"/></svg>
+          <svg class="icon theme-icon theme-icon-dark"><use href="#i-moon"/></svg>
+        </button>
+        <button type="button" class="save-btn" id="btnSave" hidden disabled>保存</button>
+        <button type="button" class="open-btn" id="btnOpen">打开</button>
+      </div>
+    </header>
+
+    <div class="workspace">
+      <aside class="sidebar" id="sidebar" aria-label="目录">
+        <div class="sidebar-head">目录</div>
+        <nav class="outline" id="outline"></nav>
+        <div class="sidebar-foot">
+          <button type="button" class="reveal-btn" id="btnReveal">
+            <svg class="icon"><use href="#i-reveal"/></svg>
+            <span>在文件夹中显示</span>
+          </button>
+        </div>
+      </aside>
+      <div class="sidebar-scrim" id="sidebarScrim" hidden></div>
+
+      <main class="reader">
+        <div class="progress" id="progress" aria-hidden="true"><span id="progressBar"></span></div>
+        <div class="scroll-area" id="scrollArea">
+          <section class="empty-state" id="emptyState">
+            <div class="empty-inner">
+              <div class="empty-logo" aria-hidden="true">
+                <svg viewBox="0 0 32 32">
+                  <path d="M8 5.5h11l5 5v16H8v-21Z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                  <path d="M18.7 5.8v5h5M12 15h8M12 19h8M12 23h5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/>
+                </svg>
+              </div>
+              <h1>打开 Markdown 文件</h1>
+              <button type="button" class="empty-cta" id="btnOpenEmpty">选择文件</button>
+              <p class="drop-hint">或将文件拖到窗口</p>
+              <div class="recent" id="recentWrap" hidden>
+                <div class="recent-head">
+                  <span>最近打开</span>
+                  <button type="button" id="btnClearRecent">清除</button>
+                </div>
+                <div class="recent-list" id="recentList"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="document-wrap" id="documentWrap" hidden>
+            <article class="markdown-body" id="content"></article>
+          </section>
+
+          <section class="editor-shell" id="editorShell" hidden>
+            <div class="editor-panel">
+              <textarea id="editor" spellcheck="false" autocomplete="off" placeholder="开始输入 Markdown"></textarea>
+            </div>
+          </section>
+        </div>
+
+        <div class="findbar" id="findbar" hidden>
+          <input type="text" id="findInput" placeholder="查找" autocomplete="off" spellcheck="false" aria-label="查找内容">
+          <span class="find-count" id="findCount">0 / 0</span>
+          <button type="button" class="find-btn" id="findPrev" title="上一个" aria-label="上一个">
+            <svg class="icon"><use href="#i-up"/></svg>
+          </button>
+          <button type="button" class="find-btn" id="findNext" title="下一个" aria-label="下一个">
+            <svg class="icon"><use href="#i-down"/></svg>
+          </button>
+          <button type="button" class="find-btn close" id="findClose" title="关闭" aria-label="关闭查找">
+            <svg class="icon"><use href="#i-x"/></svg>
+          </button>
+        </div>
+
+        <footer class="statusbar">
+          <div class="status-left">
+            <span id="statusEncoding"></span>
+            <span id="statusModified" hidden></span>
+          </div>
+          <div class="status-right">
+            <span id="statusStats"></span>
+          </div>
+        </footer>
+      </main>
+    </div>
+  </div>
+
+  <div class="drop-overlay" id="dropOverlay" aria-hidden="true">
+    <div class="drop-card">
+      <div class="drop-icon"><svg class="icon"><use href="#i-file"/></svg></div>
+      <strong>松开以打开</strong>
+    </div>
+  </div>
+
+  <div class="modal-layer" id="unsavedModal" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      <h2 id="modalTitle">保存更改？</h2>
+      <p id="modalText"></p>
+      <div class="modal-actions">
+        <button type="button" class="modal-btn quiet" id="modalCancel">取消</button>
+        <button type="button" class="modal-btn quiet" id="modalDiscard">不保存</button>
+        <button type="button" class="modal-btn primary" id="modalSave">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="bundle.js" defer></script>
+</body>
+</html>

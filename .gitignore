@@ -1,0 +1,18 @@
+# Dependencies and build output
+node_modules/
+dist/
+out/
+
+# Local portable build (upload the exe as a GitHub Release asset)
+release/*.exe
+release/*.blockmap
+release/*.7z
+release/*.yml
+
+# Local test artifacts
+qa/
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
